@@ -60,6 +60,7 @@ def get_encodings(image):
 def add_person( pid, gid, name , state , district , encodings):
 
 #     return(type(encodings))
+    encodings = json.loads(encodings)
     ids = []
     for i in range(len(encodings)):
         ids.append(pid)
@@ -90,8 +91,6 @@ def add_person( pid, gid, name , state , district , encodings):
     print(" db_enc = " + str(len(db_encodings)))
     print(" db_ids = " + str(len(db_ids)))
     
-    encodings = json.loads(encodings)
-    ids = json.loads(ids)
     
 #     print(type(encodings))
     
