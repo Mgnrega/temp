@@ -73,6 +73,22 @@ def encoding():
 
         return (encoding)
 
+#fetch the username and password
+
+@app.route("/getData/getCredentials" , methods=['GET' , 'POST'])
+def credentials():
+    if request.method=='POST':
+        try:
+            username = request.form['username']
+            password = request.form['password']
+            (user, passw) =  app_database.fetchCredentials()
+            if username == user and password == passw:
+                return app_database.return_json(data = 0, message = 'Sucessful', status = 1)
+            else:
+                return app_database.return_json(data = 0, message = 'Wrong Credentials', status = 3)
+        except Exception as e:
+            return app_database.return_json(data = 0, message = 'Error : ' + str(e), status = 2)
+        
 #store encodings on lcl browser 
 
 @app.route("/storeData/addPerson" , methods=['GET' , 'POST'])
