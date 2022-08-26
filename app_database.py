@@ -206,3 +206,26 @@ def create_gid(state , district ):
     except Exception as e:
         return return_json(data= 0 , status=2 , message="Error : "+str(e) )
         
+def get_group_attendance(state , district , gid):
+
+    try :
+        db = app_database.create_realtime_instance()
+        ids = []
+        v = db.child(f'India/{state}/{district}/{gid}/').get().val()
+        keys = list(v.keys())
+        attendence = []
+        for i in range(0 ,len(keys)):
+            dat = {
+
+                    'id' : keys[i] , 
+                    'name' : v[keys[i]]['name'] ,
+                    'attendence': v[keys[i]]['attendance'] ,
+                    'time_of_attendance' : v[keys[i]]['time_of_attendance']
+            }
+            attendence.append(dat)
+       
+            
+        return return_json(data= attendence , status=1 , message="Success")
+        
+    except Exception as e:
+        return return_json(data= 0 , status=2 , message="Error : "+str(e))
