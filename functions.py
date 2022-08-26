@@ -110,7 +110,8 @@ def add_person( pid, gid, name , state , district , encodings):
     }
 
     db_ids = np.ndarray.tolist(db_ids)
-
+    print(pid, gid)
+    print(type(pid), type(gid))
     try :
         print("Training Model")
         classifier = model(X_train=db_encodings, y_train=db_ids)
