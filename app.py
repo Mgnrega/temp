@@ -11,13 +11,17 @@ import numpy as np
 app = Flask(__name__)
 CORS(app)
 
+#fetch all states
+
 @app.route("/getData/allStates" , methods=['GET' , 'POST'])
 def state():
     
     if request.method=='POST':
         state = app_database.get_states()
         return(state)    
-    
+
+#fetch all groups
+
 @app.route("/getData/allDistricts" , methods=['GET' , 'POST'])
 def district():
     if request.method=='POST':
@@ -25,23 +29,40 @@ def district():
         district = app_database.get_districts(state)
         return(district)   
 
+#fetch all gids   
+
 @app.route("/getData/allGroups" , methods=['GET' , 'POST'])
 def group():
     if request.method=='POST':
         state = request.form['state']
         district = request.form['district']
-        district = app_database.get_gids(state, district)
-        district.append('Create New Group ID')
-        return (district)   
-    
+        group = app_database.get_gids(state, district)
+        group['data'].append('Create New Group ID')
+        return (group)   
+
+#fetch attendance of gid   
+
+@app.route("/getData/allPids" , methods=['GET' , 'POST'])
+def attendance():
+    if request.method=='POST':
+        state = request.form['state']
+        district = request.form['district']
+        gid = request.form['gid']
+        attendance = app_database.get_group_attendance(state , district , gid)
+        return (group)   
+
+#create new group
+
 @app.route("/createData/Group" , methods=['GET' , 'POST'])
-def group():
+def create():
     if request.method=='POST':
         state = request.form['state']
         district = request.form['district']
         groupid = app_database.create_gid(state, district)
         return (groupid)   
 
+#encode every image
+    
 @app.route("/image/getEncodings" , methods=['GET' , 'POST'])
 def encoding():
     if request.method=='POST':
@@ -54,6 +75,7 @@ def encoding():
         return (encoding)
 
 #store encodings on lcl browser 
+
 @app.route("/storeData/addPerson" , methods=['GET' , 'POST'])
 def addPerson():
     if request.method=='POST':
