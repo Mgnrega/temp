@@ -49,7 +49,7 @@ def attendance():
         district = request.form['district']
         gid = request.form['gid']
         attendance = app_database.get_group_attendance(state , district , gid)
-        return (group)   
+        return (attendance)   
 
 #create new group
 
