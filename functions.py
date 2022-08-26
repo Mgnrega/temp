@@ -60,7 +60,7 @@ def get_encodings(image):
 
 # add encodings of person in database and retrian model
 
-def add_person(encodings, pid, gid, name , state , district):
+def add_person( pid, gid, name , state , district , encodings):
 
 #     return(type(encodings))
     ids = []
