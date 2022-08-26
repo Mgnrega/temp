@@ -62,7 +62,7 @@ def get_encodings(image):
 
 def add_person(encodings, pid, gid, name , state , district):
 
-    
+    return(type(encodings))
     ids = []
     for i in range(len(encodings)):
         ids.append(pid)
