@@ -101,7 +101,7 @@ def addPerson():
         state = request.form['state']
         district = request.form['district']
         
-        person = f.add_person(pid, gid, name, state, district)
+        person = f.add_person(pid, gid, name, state, district, encodings)
         return ('abc')
    
 
