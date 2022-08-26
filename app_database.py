@@ -235,4 +235,5 @@ def get_group_attendance(state , district , gid):
     
 def fetchCredentials():
     db = create_realtime_instance()
-    return db.child('ID').get().val()
+    v = db.child('ID').get().val()
+    return (v['username'], v['password'])
