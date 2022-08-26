@@ -102,7 +102,7 @@ def addPerson():
         district = request.form['district']
         
         person = f.add_person(pid, gid, name, state, district, encodings)
-        return ('abc')
+        return (person)
    
 
 if __name__ == "__main__":
