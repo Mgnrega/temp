@@ -89,12 +89,12 @@ def add_person( pid, gid, name , state , district , encodings):
      
     print(" db_enc = " + str(len(db_encodings)))
     print(" db_ids = " + str(len(db_ids)))
-    encodings = list(encodings)
-    print(type(encodings))
-    #db_encodings += encodings
     
+    encodings = json.loads(encodings)
+    print(type(encodings))
+    
+    db_encodings += encodings
     db_ids += ids
-    print(len(encodings[0]), encodings[0])
     
     print(" db_enc = " + str(len(db_encodings)))
     print(" db_ids = " + str(len(db_ids)))
