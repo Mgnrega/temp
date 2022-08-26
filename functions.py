@@ -56,7 +56,7 @@ def get_encodings(image):
             encode = encode.tolist()
             return return_json(data = encode , status= 1,message= 'Attendence Taaken')
     except:
-        return return_json(datat = 0 ,status= 2 , message= "No Faces detected in image")
+        return return_json(data = 0 ,status= 2 , message= "No Faces detected in image")
 
 # add encodings of person in database and retrian model
 
