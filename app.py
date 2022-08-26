@@ -101,8 +101,8 @@ def addPerson():
         state = request.form['state']
         district = request.form['district']
         
-        person = f.add_person(pid, gid, name, state, district)
-        return (person)
+        #person = f.add_person(pid, gid, name, state, district)
+        return ('abc')
    
 
 if __name__ == "__main__":
