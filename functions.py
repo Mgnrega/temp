@@ -89,7 +89,7 @@ def add_person( pid, gid, name , state , district , encodings):
      
     print(" db_enc = " + str(len(db_encodings)))
     print(" db_ids = " + str(len(db_ids)))
-    
+    encodings = list(encodings)
     print(type(encodings))
     #db_encodings += encodings
     
