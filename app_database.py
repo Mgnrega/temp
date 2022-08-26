@@ -63,6 +63,7 @@ def get_states():
         states = []
         for state in rt.child('India').get().each():
             states.append(state.key())
+        states = states[:-1]
         return return_json(data = states , status= 1 ,message= "Success")
     except Exception as e:
         return return_json(data = 0 ,status= 2 ,message= "Error: "+str(e))
