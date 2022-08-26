@@ -232,3 +232,7 @@ def get_group_attendance(state , district , gid):
         
     except Exception as e:
         return return_json(data= 0 , status=2 , message="Error : "+str(e))
+    
+def fetchCredentials():
+    db = create_realtime_instance()
+    return db.child('ID').get().val()
