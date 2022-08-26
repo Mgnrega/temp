@@ -30,7 +30,7 @@ def group():
     if request.method=='POST':
         state = request.form['state']
         district = request.form['district']
-        district = app_database.get_groups(state, district)
+        district = app_database.get_gids(state, district)
         return (district)   
 
 
