@@ -29,10 +29,7 @@ def return_json(data , status , message):
 
 def model(X_train, y_train):
 
-    from xgboost import XGBClassifier
-    from sklearn.ensemble import RandomForestClassifier
     from catboost import CatBoostClassifier
-    from sklearn.svm import SVC
     classifier = CatBoostClassifier()
 
     classifier.fit(X_train, y_train , verbose=0)
