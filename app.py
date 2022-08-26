@@ -94,14 +94,14 @@ def credentials():
 @app.route("/storeData/addPerson" , methods=['GET' , 'POST'])
 def addPerson():
     if request.method=='POST':
-        #encodings = request.form['encodings']
+        encodings = request.form['encodings']
         pid = request.form['pid']
         gid = request.form['gid']
         name = request.form['name']
         state = request.form['state']
         district = request.form['district']
         
-        #person = f.add_person(pid, gid, name, state, district)
+        person = f.add_person(pid, gid, name, state, district)
         return ('abc')
    
 
