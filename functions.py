@@ -87,13 +87,16 @@ def add_person( pid, gid, name , state , district , encodings):
         lb = LabelEncoder()
 
     # print("lb = " , lb)
-        
+     
+    print(" db_enc = " + str(len(db_encodings)))
+    print(" db_ids = " + str(len(db_ids)))
+    
     db_encodings += encodings
     db_ids += ids
 
     print(" db_enc = " + str(len(db_encodings)))
     print(" db_ids = " + str(len(db_ids)))
-
+    
     db_ids = lb.fit_transform(db_ids)
     
     data = {
