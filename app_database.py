@@ -209,7 +209,7 @@ def create_gid(state , district ):
 def get_group_attendance(state , district , gid):
 
     try :
-        db = app_database.create_realtime_instance()
+        db = create_realtime_instance()
         ids = []
         v = db.child(f'India/{state}/{district}/{gid}/').get().val()
         keys = list(v.keys())
