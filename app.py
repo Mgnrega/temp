@@ -31,8 +31,16 @@ def group():
         state = request.form['state']
         district = request.form['district']
         district = app_database.get_gids(state, district)
+        district.append('Create New Group ID')
         return (district)   
-
+    
+@app.route("/createData/Group" , methods=['GET' , 'POST'])
+def group():
+    if request.method=='POST':
+        state = request.form['state']
+        district = request.form['district']
+        groupid = app_database.create_gid(state, district)
+        return (groupid)   
 
 @app.route("/image/getEncodings" , methods=['GET' , 'POST'])
 def encoding():
