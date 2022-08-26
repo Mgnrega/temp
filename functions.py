@@ -72,8 +72,8 @@ def add_person( pid, gid, name , state , district , encodings):
     db_ids = []
 
     data = app_database.get_db_data(state , district , gid)
-    print(data)
-    if data != None or data != '':
+    print(data, len(data))
+    if data != None and data != '':
         for i in data.keys():
             id = i
             for j in data[id]['encoding']:
