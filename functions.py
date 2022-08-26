@@ -5,6 +5,8 @@ import json
 import pyrebase
 import numpy as np
 
+# return template
+
 def return_json(data , status , message):
 
     msg = {
@@ -15,13 +17,21 @@ def return_json(data , status , message):
 
     return json.loads(json.dumps(msg))
 
+
+# machine learning model
+
 def model(X_train, y_train):
 
+    from xgboost import XGBClassifier
+    from sklearn.ensemble import RandomForestClassifier
     from catboost import CatBoostClassifier
+    from sklearn.svm import SVC
     classifier = CatBoostClassifier()
-    classifier.fit(X_train, y_train , verbose=1)
+
+    classifier.fit(X_train, y_train , verbose=0)
     return classifier
 
+# get encodings of an individual image of a person
 
 def get_encodings(image):
 
@@ -33,24 +43,27 @@ def get_encodings(image):
         encode = face_recognition.face_encodings(rgb, boxes)
         if(len(encode) > 1):
             
-            return return_json(data = 0 , status = 3 , message = 'More than one faces in image' )
+            return return_json(0 , 3 ,'More than one faces in image' )
         else:
             encode = encode[0]
             encode = encode.tolist()
-            return return_json(data = encode , status = 1, message = 'Attendence Taken')
+            return return_json(encode , 1, 'Attendence Taaken')
     except:
-        return return_json(data = 0 , status =  2 , message = "No Faces detected in image")
+        return return_json(0 , 2 , "No Faces detected in image")
+
+# add encodings of person in database and retrian model
 
 def add_person(encodings, pid, gid, name , state , district):
 
+    
     ids = []
     for i in range(len(encodings)):
         ids.append(pid)
 
+    
     db_encodings = []
     db_ids = []
 
-    # TODO: get all the encodings fron database in varible db_encodings , db_names , db_ids
     data = app_database.get_db_data(state , district , gid)
     if data != None:
         print(data.keys())
@@ -61,9 +74,6 @@ def add_person(encodings, pid, gid, name , state , district):
                 db_encodings.append(j)
                 db_ids.append(id)
 
-    
-    # TODO: remover below 2 lines afte importing lb from database
-    # TODO: fetch  pickle files : ( lablencoder as lb )
     lb = None
     try:
         lb = app_database.get_lable_encoder(gid)
@@ -89,25 +99,24 @@ def add_person(encodings, pid, gid, name , state , district):
     'time_of_attendance':0
     }
 
-    # for i in range( 0 , len(db_encodings)):
-    #     print(f"{db_ids[i]} -> {db_encodings[i]}" , end='\n')
-
-
-    # print(type(db_encodings))
-
     db_ids = np.ndarray.tolist(db_ids)
+
     try :
         print("Training Model")
         classifier = model(X_train=db_encodings, y_train=db_ids)
         app_database.append_person(gid = gid , pid = pid , state= state , district=district , data=data)
+        # TODO: write pickle filles again for gps
         app_database.writepickle(classifier , gid , 'classifier.pickle')
         app_database.writepickle(lb , gid , 'lable_encoder.pickle')
         app_database.write_model(gid)
         app_database.write_lable(gid)
         return return_json(data=0 , status=1 , message="Trained Model and Added Person")
     except Exception as e:
+        # print("Inside except block " + str(e))
         app_database.append_person(gid = gid , pid = pid , state= state , district=district , data=data)
         return return_json(data=0 , status=2 , message="Error : "+str(e))
+
+   
 
 
 def test(X_test, y_test, classifier):
@@ -115,10 +124,13 @@ def test(X_test, y_test, classifier):
     print(classifier.score(X_test, y_test))
 
 
+# recognize faces in image
+
 def recognize_image(image, gid):
 
-    try:
-        
+    try:     
+      
+
         classifier = app_database.get_model(gid)
         lb = app_database.get_lable_encoder(gid)
 
@@ -128,23 +140,25 @@ def recognize_image(image, gid):
         y_pred = classifier.predict(encodings)
         y_pred = lb.inverse_transform(y_pred)
         pred_prop = classifier.predict_proba(encodings)
-
         attendance = []
         for i in range(0 , len(y_pred)):
             # TODO: Set Threshold value
             if(max(pred_prop[i]) > 0.75 ):
                 attendance.append(y_pred[i])
-        return return_json(data = attendance , status = 1, message = 'Made Attendance List') 
+        
+        image = cv2.resize(image,(900,900))
+        cv2.imshow("Image", image)
+        cv2.waitKey(0)
+        return return_json(attendance , 1, 'Made Attendance List') 
     
     except Exception as e:
-        return return_json(data = 0 , status = 2 , message = str(e) )
+        return return_json(0 , 2 ,str(e) )
 
+# mark attendnece 
 
 def mark_attendence():
 
     # TODO: mark attendence in database
     
 
-    return return_json(data = 0 , status = 1 , message = "Marked attendence" )
-
-
+    return return_json(0 ,  1 , "Marked attendence" )
