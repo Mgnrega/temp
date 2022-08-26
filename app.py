@@ -37,7 +37,6 @@ def group():
         state = request.form['state']
         district = request.form['district']
         group = app_database.get_gids(state, district)
-        group['data'].append('Create New Group ID')
         return (group)   
 
 #fetch attendance of gid   
